@@ -1,0 +1,7 @@
+<?php
+/**
+ * salt laravel banner package config file
+ */
+return [
+    // Place your package's config settings here.
+];
