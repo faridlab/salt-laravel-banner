@@ -17,11 +17,12 @@ class Banners extends Resources {
     use Uuids;
     use ObservableModel;
     use Fileable;
-    protected $fileableFields = ['video', 'banner'];
+    protected $fileableFields = ['video', 'banner', 'mobile'];
     protected $fileableCascade = true;
     protected $fileableDirs = [
         'video' => 'banners/video',
         'banner' => 'banners/image',
+        'mobile' => 'banners/mobile',
     ];
 
     protected $filters = [
@@ -72,10 +73,22 @@ class Banners extends Resources {
     protected $searchable = array( 'title', 'description', 'status', 'type','videourl','order', 'link');
     protected $fillable = array( 'title', 'description', 'status', 'type','videourl','order', 'link');
 
+    public function save(array $options = [])
+    {
+        $this->updated_at = now();
+        return parent::save($options);
+    }
+
     public function banner() {
         return $this->hasOne('SaltFile\Models\Files', 'foreign_id', 'id')
                     ->where('foreign_table', 'banners')
                     ->where('directory', 'banners/image');
+    }
+
+    public function mobile() {
+        return $this->hasOne('SaltFile\Models\Files', 'foreign_id', 'id')
+                    ->where('foreign_table', 'banners')
+                    ->where('directory', 'banners/mobile');
     }
 
     public function video() {
